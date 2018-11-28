@@ -37,18 +37,18 @@ var playerWizard = {
   },
 
   eyesColorGenerator: function () {
-    var newColor = getRandomElement(EYES_COLORS);
     var $this = this;
     this.element.querySelector('.wizard-eyes').addEventListener('click', function () {
+      var newColor = getRandomElement(EYES_COLORS);
       $this.element.querySelector('.wizard-eyes').style.fill = newColor;
       $this.element.querySelector('.eyes-color').value = newColor;
     });
   },
 
   fireballColorGenerator: function () {
-    var newColor = getRandomElement(FIREBALL_COLORS);
     var $this = this;
     this.element.querySelector('.setup-fireball-wrap').addEventListener('click', function () {
+      var newColor = getRandomElement(FIREBALL_COLORS);
       $this.element.querySelector('.setup-fireball-wrap').style.backgroundColor = newColor;
       $this.element.querySelector('.fireball-color').value = newColor;
     });
