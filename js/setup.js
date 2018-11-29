@@ -26,7 +26,7 @@ for (var i = 0; i < wizardsNumber; i++) {
 var playerWizard = {
   element: document.querySelector('.setup-player'),
 
-  coatColorGenerator: function () {
+  generateCoatColor: function () {
     var $this = this;
 
     this.element.querySelector('.wizard-coat').addEventListener('click', function () {
@@ -36,7 +36,7 @@ var playerWizard = {
     });
   },
 
-  eyesColorGenerator: function () {
+  generateEyesColor: function () {
     var $this = this;
     this.element.querySelector('.wizard-eyes').addEventListener('click', function () {
       var newColor = getRandomElement(EYES_COLORS);
@@ -45,7 +45,7 @@ var playerWizard = {
     });
   },
 
-  fireballColorGenerator: function () {
+  generateFireballColor: function () {
     var $this = this;
     this.element.querySelector('.setup-fireball-wrap').addEventListener('click', function () {
       var newColor = getRandomElement(FIREBALL_COLORS);
@@ -56,16 +56,13 @@ var playerWizard = {
 
 };
 
-playerWizard.coatColorGenerator();
-playerWizard.eyesColorGenerator();
-playerWizard.fireballColorGenerator();
+playerWizard.generateCoatColor();
+playerWizard.generateEyesColor();
+playerWizard.generateFireballColor();
 
 // wizard constructor end
 
 // Events
-
-var ENTER_KEYCODE = 13;
-var ESC_KEYCODE = 27;
 
 var userDialog = document.querySelector('.setup');
 
@@ -81,7 +78,7 @@ buttonSetupOpen.addEventListener('click', function (ev) {
 });
 
 buttonSetupOpen.querySelector('.setup-open-icon').addEventListener('keydown', function (ev) {
-  if (ev.which === ENTER_KEYCODE) {
+  if (ev.key === 'Enter') {
     ev.preventDefault();
     ev.stopPropagation();
     userDialog.classList.remove('hidden');
@@ -96,7 +93,7 @@ buttonSetupClose.addEventListener('click', function (ev) {
 
 
 window.addEventListener('keydown', function (ev) {
-  if (ev.which === ESC_KEYCODE) {
+  if (ev.key === 'Escape') {
     ev.preventDefault();
     ev.stopPropagation();
 
@@ -107,7 +104,7 @@ window.addEventListener('keydown', function (ev) {
 });
 
 buttonSetupClose.addEventListener('keydown', function (ev) {
-  if (ev.which === ENTER_KEYCODE) {
+  if (ev.key === 'Enter') {
     ev.preventDefault();
     ev.stopPropagation();
     userDialog.classList.add('hidden');
