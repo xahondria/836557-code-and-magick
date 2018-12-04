@@ -65,23 +65,30 @@ playerWizard.generateFireballColor();
 // Events
 
 var userDialog = document.querySelector('.setup');
+var handle = userDialog.querySelector('.upload');
 
 var buttonSetupOpen = document.querySelector('.setup-open');
 var buttonSetupClose = document.querySelector('.setup-close');
 
 var nameInput = userDialog.querySelector('.setup-user-name');
 
+var show = function (element, top) {
+  element.classList.remove('hidden');
+  element.style.top = top + 'px';
+  element.style.left = 50 + '%';
+};
+
 buttonSetupOpen.addEventListener('click', function (ev) {
   ev.preventDefault();
   ev.stopPropagation();
-  userDialog.classList.remove('hidden');
+  show(userDialog, 80);
 });
 
 buttonSetupOpen.querySelector('.setup-open-icon').addEventListener('keydown', function (ev) {
   if (ev.key === 'Enter') {
     ev.preventDefault();
     ev.stopPropagation();
-    userDialog.classList.remove('hidden');
+    show(userDialog, 80);
   }
 });
 
@@ -130,6 +137,62 @@ var renderWizard = function (wizard) {
 
   return wizardElement;
 };
+
+// функция перетаскивания окна
+var moveElement = function (element, elementHandle) {
+
+  elementHandle.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var dragged = false;
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      dragged = true;
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      // перемещаем этот элемент
+      element.style.top = (element.offsetTop - shift.y) + 'px';
+      element.style.left = (element.offsetLeft - shift.x) + 'px';
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+
+      if (dragged) {
+        var onClickPreventDefault = function (ev) {
+          ev.preventDefault();
+          elementHandle.removeEventListener('click', onClickPreventDefault);
+        };
+        elementHandle.addEventListener('click', onClickPreventDefault);
+      }
+
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
+};
+
+moveElement(userDialog, handle);
 
 
 // функция заполнения блока DOM-элементами на основе массива JS-объектов
